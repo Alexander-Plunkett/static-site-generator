@@ -1,6 +1,13 @@
 import unittest
 
-from inline_markdown import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from inline_markdown import (
+    split_nodes_delimiter,
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_image,
+    split_nodes_link,
+    text_to_textnode)
+
 from textnode import TextNode, TextType
 
 class TestSplitNodesDelimiter(unittest.TestCase):
@@ -87,7 +94,7 @@ class TestImageAndLinkExtraction(unittest.TestCase):
             [("pingu", "https://imgur.com/gallery/noot-noot-pingu-dyTMsQV")]
         )
 
-class TestSplitNodesImage(unittest.TestCase):
+class TestSplitNodes(unittest.TestCase):
     def test_image_split(self):
         node = TextNode("I am a text node with a ![rick roll](https://i.imgur.com/aKaOqIh.gif)", TextType.TEXT)
         self.assertEqual(
@@ -134,5 +141,42 @@ class TestSplitNodesImage(unittest.TestCase):
                 TextNode(" too", TextType.TEXT)
             ]
         )
+
+class TestTextToTextNode(unittest.TestCase):
+    def test_all_text_types(self):
+        text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        self.assertEqual(
+            text_to_textnode(text),
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("text", TextType.BOLD),
+                TextNode(" with an ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(" word and a ", TextType.TEXT),
+                TextNode("code block", TextType.CODE),
+                TextNode(" and an ", TextType.TEXT),
+                TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+                TextNode(" and a ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "https://boot.dev"),
+            ]
+        )
+
+    def test_no_text_type(self):
+        text = "**bold** *italic* `code` ![image](image url) [link](link url)"
+        self.assertEqual(
+            text_to_textnode(text),
+            [
+                TextNode("bold", TextType.BOLD),
+                TextNode(" ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(" ", TextType.TEXT),
+                TextNode("code", TextType.CODE),
+                TextNode(" ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "image url"),
+                TextNode(" ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "link url")
+            ]
+        )
+
 if __name__ == "__main__":
     unittest.main()
