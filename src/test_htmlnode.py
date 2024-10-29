@@ -9,11 +9,11 @@ class TestHTMLNode(unittest.TestCase):
             "I am a test node",
             None,
             {"location": "home", "target": "blank"}
-            )
+        )
         self.assertEqual(
             node.props_to_html(),
             ' location="home" target="blank"'
-            )
+        )
 
     def test_values(self):
         node = HTMLNode(
@@ -47,8 +47,7 @@ class TestHTMLNode(unittest.TestCase):
             "I am a test node",
             None,
             {"location": "home"}
-            )
-        
+        )
         self.assertEqual(
             "HTMLNode(b, I am a test node, children: None, {'location': 'home'})",
             node.__repr__()
@@ -98,5 +97,6 @@ class TestHTMLNode(unittest.TestCase):
             parent_node.to_html(),
             "<p><b>I am a bold test node</b><i>I am an italic test node</i></p>"
         )
+
 if __name__ == "__main__":
     unittest.main()

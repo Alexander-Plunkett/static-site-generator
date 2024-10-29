@@ -29,7 +29,7 @@ def markdown_to_html_node(markdown):
         block_type = block_to_block_type(block)
         block_node = block_to_html(block, block_type)
         blocks_html.append(block_node)
-    return ParentNode("div", None, blocks_html)
+    return ParentNode("div", blocks_html)
 
 def block_to_block_type(block):
     lines = block.split("\n")

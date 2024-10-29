@@ -6,8 +6,6 @@ Welcome to the **start** of the test
 
 ```
 This is a code block
-    it should hold
-        indentation
 ```
 
 ### Image list
@@ -19,3 +17,5 @@ This is a code block
 
 * [Link](https://www.boot.dev) to boot dev
 * [Link](https://github.com/Alexander-Plunkett) to my github
+
+That ends the test
